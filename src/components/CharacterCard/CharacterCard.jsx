@@ -1,9 +1,13 @@
 import React from 'react'
 import './CharacterCard.css'
 
-function CharacterCard() {
+function CharacterCard({character}) {
   return (
-    <div>CharacterCard</div>
+    <div className="character-card">
+        <img src={character.image} />
+        <p>{character.name}</p>
+        <a href='#'>See Details</a>
+    </div>
   )
 }
 
