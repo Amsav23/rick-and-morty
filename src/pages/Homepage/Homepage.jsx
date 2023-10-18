@@ -30,7 +30,7 @@ function Homepage() {
 
   return (
     <div className="home-container">
-        <Search />
+        <Search setCharacters={setCharacters} />
         <h1>Main Characters</h1>
         <div className="characters-container">
             {
