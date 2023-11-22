@@ -13,7 +13,7 @@ function CharacterDetails() {
     //https://rickandmortyapi.com/api/character/5
 
     //create state for data for this character
-    const [character, setCharacter] = React.useState()
+    const [character, setCharacter] = React.useState('')
 
     useEffect (
         () => {
@@ -21,7 +21,10 @@ function CharacterDetails() {
             //call API to get data
             axios.get(`https://rickandmortyapi.com/api/character/${characterId}`)
             .then(res => {
-                console.log(res)
+                console.log(res.data)
+                //I have the data, what do I do with it?
+                //store in state
+                setCharacter(res.data)
             })
             .catch(err => console.log(err))
 
@@ -30,7 +33,16 @@ function CharacterDetails() {
 
 
   return (
-    <div>CharacterDetails {characterId}</div>
+    <div className='details-container'>
+      <img src={character?.image} />
+      <div className='container-info'>
+        <p>Name: {character?.name}</p>
+        <p>Gender: {character?.gender}</p>
+        <p>Location: {character?.location?.name}</p>
+        <p>Species: {character?.species}</p>
+      </div>
+
+    </div>
   )
 }
 
