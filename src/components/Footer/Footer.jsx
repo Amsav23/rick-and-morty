@@ -28,7 +28,8 @@ function Footer() {
 
   return (
     <div className="footer-container">
-        <button className="contact-btn" onClick={()=>setIsOpen(true)}>Contact Us</button>
+        <button className="contact-btn" onClick={()=>setIsOpen(true)}
+        >Contact Us</button>
 
         <Modal
           isOpen={isOpen}   
