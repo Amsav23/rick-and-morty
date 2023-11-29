@@ -1,15 +1,20 @@
 import React from 'react'
 import './Header.css'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (
     <div className="header-container">
         <div>
-            <a href='/' style={{marginRight: "10px"}} >Home</a>
-            <a href='/about' style={{marginRight: "10px"}}>About</a>
-            <a href='/episodes'>Episodes</a>
+            <Link to='/' style={{marginRight: "10px"}} >Home</Link>
+            <Link to='/about' style={{marginRight: "10px"}}>About</Link>
+            <Link to='/episodes'>Episodes</Link>
         </div>
-        <button className="theme-button">Dark Mode</button>
+        <div>
+          <Link to='favorites'>My Favorites</Link>
+            <button className="theme-button">Dark Mode</button>
+        </div>
+        
     </div>
   )
 }

@@ -7,21 +7,26 @@ import Footer from './components/Footer/Footer'
 import About from './pages/About/About'
 import Episodes from './pages/Episodes/Episodes'
 import CharacterDetails from './pages/CharacterDetails/CharacterDetails'
+import Favorites from './pages/Favorites/Favorites'
+import FavoritesContextProvider from './contexts/FavoritesContext'
 
 function App() {
 
   return (
     <BrowserRouter>
-      <Header />
+      <FavoritesContextProvider>
+        <Header />
 
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/episodes' element={<Episodes />} />
-        <Route path='/details/:characterId' element={<CharacterDetails />} />
-      </Routes>
-      
-      <Footer />
+        <Routes>
+          <Route path='/' element={<Homepage />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/favorites' element={<Favorites />} />
+          <Route path='/episodes' element={<Episodes />} />
+          <Route path='/details/:characterId' element={<CharacterDetails />} />
+        </Routes>
+        
+        <Footer />
+      </FavoritesContextProvider>
     </BrowserRouter>
   )
 }
