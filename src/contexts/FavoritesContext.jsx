@@ -1,49 +1,63 @@
 import {useState, createContext, useEffect} from 'react'
 
+//create context
 export const FavoritesContext = createContext();
 
 export default function FavoritesContextProvider(props){
     //create the global state
     const [favorites, setFavorites] = useState([])
 
-    /*
-    //get inital state from localStorage when page loads
+    //this one is for retrieving from localStorage
+    //this useEffect REMEMBERS if the user favorites a character
     useEffect(
-        ()=>{
-            //is there a value in localStorage
-            const storedDarkMode = localStorage.getItem('darkMode')
-            //check if something was there
-            if (storedDarkMode){
-                //console.log('datatype is ', typeof(storedDarkMode))
-                //setDarkMode(storedDarkMode)
+        () => {
+            //when page loads, check if there is value in localStorage
+            const storedFavorites = localStorage.getItem('favoritesList')
+            // console.log(storedFavorites)
+            //if there was a value, use it
+            if (storedFavorites){
                 //parse converts from string to its datatype
-                setDarkMode(JSON.parse(storedDarkMode))
+                setFavorites(JSON.parse(storedFavorites))
             }
             //otherwise will use default state value
 
         }, []
     )
 
-    //save to localStorage whenever it changes
+    //this one is for saving to localStorage
     useEffect(
-        ()=>{
-            //save current state to localStorage when it changes
+        () => {
+            //save current state to localStorage
             //stringify converts to JSON string format
-            localStorage.setItem('darkMode', JSON.stringify(darkMode))
-            //localStorage.setItem('darkMode', darkMode)
+            localStorage.setItem('favoritesList', JSON.stringify(favorites))
 
-        }, [darkMode]
+        }, [favorites] //runs anytime favoritesList changes
     )
-*/
+
 
     //this function will add a character to the list
     const addCharacter = (charToAdd) => {
         console.log('adding', charToAdd)
-        //verify that I have the data of the character to add
+        //this verifies that I have the data of the character to add
+
+        let newFavorites = [...favorites, charToAdd]
+        console.log(newFavorites)
+        //update state
+        setFavorites(newFavorites)
+    }
+
+    const removeCharacter = (charId) => {
+        console.log('remove', charId)
+        //use filter to KEEP all that are not charId
+        let newFavorites = favorites.filter(item => item.id != charId)
+        console.log(newFavorites)
+        //update state
+        setFavorites(newFavorites)
     }
     
     return(
-        <FavoritesContext.Provider value={{favorites, addCharacter}} >
+        <FavoritesContext.Provider value={{favorites, addCharacter, 
+        removeCharacter}} >
             {props.children}
         </FavoritesContext.Provider>
     )
