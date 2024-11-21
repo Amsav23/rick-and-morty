@@ -1,10 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './Homepage.css'
 import axios from 'axios'
 import CharacterCard from '../../components/CharacterCard/CharacterCard'
 import Search from '../../components/Search/Search'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 function Homepage() {
+    // use global state for darkMode
+    // Use {} NOT []
+    const {darkMode, setDarkMode} = useContext(ThemeContext)
+
     //create state for the characters
     const [characters, setCharacters] = useState([])
 
@@ -29,7 +34,7 @@ function Homepage() {
     )
 
   return (
-    <div className="home-container">
+    <div className={darkMode?"home-container home-dark" :"home-container"}>
         <Search setCharacters={setCharacters} />
         <h1>Main Characters</h1>
         <div className="characters-container">

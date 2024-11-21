@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useContext }from 'react'
 import './About.css'
 import banner from '../../assets/banner.jpeg'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 function About() {
 
+  // Use global state for darkMode
+  // Use {} NOT []
+  const {darkMode, setDarkMode} = useContext(ThemeContext)
+
   return (
-    <div className="about-container">
+    <div className={darkMode?"about-container about-dark" :"about-container"}>
         <img src={banner}/>
         <h1>About Us</h1>
         <p>Rick and Morty is an American adult animated science-fiction sitcom created by Justin Roiland 

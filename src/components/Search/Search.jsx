@@ -35,9 +35,7 @@ function Search({setCharacters}) {
 
         //clear textbox
         setQuery('')
-
     }
-
 
   return (
     <form className="search-container" onSubmit={handleSubmit}>

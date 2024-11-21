@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 import './Episodes.css'
 import axios from 'axios'
 import CharacterCard from '../../components/CharacterCard/CharacterCard'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 function Episodes() {
+  // use global state for darkMode
+  // Use {} NOT []
+  const {darkMode, setDarkMode} = useContext(ThemeContext)
+
+
   //create state for the array of options
   const [options, setOptions] = React.useState([])
 
@@ -11,20 +17,58 @@ function Episodes() {
   const [selectedOption, setSelectedOption] = React.useState(1)
 
   //state for episode info
-  const [selectedEpisode, setSelectedEpisode] = React.useState('')
+  const [selectedEpisode, setSelectedEpisode] = React.useState()
 
   //state for characters
   const [characterList, setCharacterList] = React.useState([])
+
+
+  //https://rickandmortyapi.com/api/episode/2
+  const fetchEpisodeData = async () => {
+    console.log('make API call')
+    try {
+      //make API call to get data episode data
+        const res = await axios.get(`https://rickandmortyapi.com/api/episode/${selectedOption}`)
+        console.log(res.data)
+        //store in state
+        setSelectedEpisode(res.data)
+        console.log(res.data.characters)
+
+        //we need to make all these API calls to get character data
+        const episodeCharacters = await Promise.all (
+          res.data.characters.map(url => {
+            return axios.get(url).then(res => res.data)
+          })
+        )
+        console.log(episodeCharacters)
+        //store in state
+        setCharacterList(episodeCharacters)
+        // now map to CharacterCard to render
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleSelectChange = (e) => {
+    //what number was selected?
+    console.log('episode selected', e.target.value)
+    //store in state
+    setSelectedOption(e.target.value)
+  }
+
+
 
   //when I select an episode, the page shows info and characters
   //from that episode
 
   //find out how many episodes there are
   //https://rickandmortyapi.com/api/episode
-  useEffect(
+  React.useEffect(
     () => {
       //make api call to get number of episodes
-      axios.get(`https://rickandmortyapi.com/api/episode`)
+      axios.get("https://rickandmortyapi.com/api/episode")
       .then(res => {
         console.log(res.data.info.count)
         //create an array with the numbers from 1 to this value
@@ -40,51 +84,18 @@ function Episodes() {
   )
 
   //this useEffect runs anytime selectedOption changes
-  useEffect (
+  React.useEffect (
     () => {
-      console.log('selected episode', selectedOption)
+      console.log('you selected episode...', selectedOption)
       //make API calls
       fetchEpisodeData()
 
     }, [selectedOption]
   )
 
-  //https://rickandmortyapi.com/api/episode/2
-  const fetchEpisodeData = async () => {
-    console.log('make API call')
-    try {
-      //make API call to get data episode data
-        const res = await axios.get(`https://rickandmortyapi.com/api/episode/${selectedOption}`)
-        console.log(res.data)
-        //store in state
-        setSelectedEpisode(res.data)
-
-        console.log(res.data.characters)
-        //we need to make all these API calls to get character data
-        const episodeCharacters = await Promise.all (
-          res.data.characters.map(url => {
-            return axios.get(url).then(res => res.data)
-          })
-        )
-        console.log(episodeCharacters)
-        //store in state
-        setCharacterList(episodeCharacters)
-
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-
-  const handleSelectChange = (e) => {
-    //what number was selected?
-    console.log('episode selected', e.target.value)
-    //store in state
-    setSelectedOption(e.target.value)
-  }
 
   return (
-    <div className='episodes-container'>
+    <div className={darkMode?'episodes-container episodes-dark' :'episodes-container'}>
       <div>
         <label htmlFor='select-episode'>Select an episode: </label>
         <select id='select-episode' onChange={handleSelectChange}>
@@ -95,7 +106,7 @@ function Episodes() {
       </div>
 
       <div>
-        <div className='episode-data'>
+        <div className='episode-info'>
           <p>Episode Name: {selectedEpisode?.name}</p>
           <p>Air Date: {selectedEpisode?.air_date}</p>
         </div>

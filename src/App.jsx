@@ -9,12 +9,14 @@ import Episodes from './pages/Episodes/Episodes'
 import CharacterDetails from './pages/CharacterDetails/CharacterDetails'
 import Favorites from './pages/Favorites/Favorites'
 import FavoritesContextProvider from './contexts/FavoritesContext'
+import ThemeContextProvider from './contexts/ThemeContext'
 
 function App() {
 
   return (
     <BrowserRouter>
       <FavoritesContextProvider>
+      <ThemeContextProvider>
         <Header />
 
         <Routes>
@@ -26,6 +28,7 @@ function App() {
         </Routes>
         
         <Footer />
+      </ThemeContextProvider>
       </FavoritesContextProvider>
     </BrowserRouter>
   )
