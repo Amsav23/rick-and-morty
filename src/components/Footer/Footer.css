@@ -28,11 +28,10 @@
   font-size: 20px;
   cursor: pointer;
   color: gray;
-  transition: color 2s ease-in-out;
+  transition: color 0.3s ease-in-out;
 }
 
 .modal-close-btn:hover {
-  /* color: var(--primary-bg); */
   color: red;
 }
 
@@ -70,6 +69,5 @@ form button[type='submit'] {
 }
 
 form button[type='submit']:hover {
-  /* background-color: var(--primary-bg); */
   background-color: red;
 }

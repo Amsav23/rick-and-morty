@@ -9,7 +9,6 @@ function Episodes() {
   // Use {} NOT []
   const {darkMode, setDarkMode} = useContext(ThemeContext)
 
-
   //create state for the array of options
   const [options, setOptions] = React.useState([])
 
@@ -58,8 +57,6 @@ function Episodes() {
     setSelectedOption(e.target.value)
   }
 
-
-
   //when I select an episode, the page shows info and characters
   //from that episode
 
@@ -92,7 +89,6 @@ function Episodes() {
 
     }, [selectedOption]
   )
-
 
   return (
     <div className={darkMode?'episodes-container episodes-dark' :'episodes-container'}>
